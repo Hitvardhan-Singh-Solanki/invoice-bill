@@ -1,0 +1,20 @@
+{
+  "name": "final",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^16.0.6"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "mongoose": "^6.1.6",
+    "pdf2table": "^0.0.2"
+  }
+}

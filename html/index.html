@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'" />
+    <meta http-equiv="X-Content-Security-Policy" content="default-src * 'unsafe-inline'" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link rel="stylesheet" href="../styles/read-file.css" />
+    <title>Invoice Billing</title>
+</head>
+
+<body>
+    <main>
+        <div class="container">
+            <h4>Invoice Billing System</h4>
+            <div>
+                <a class="waves-effect waves-light btn" id="add-file-main-btn">
+                    <i class="large material-icons left">add</i>
+                    Add a File
+                </a>
+                <a class="waves-effect waves-light btn" id="search-part-main-btn">
+                    <i class="large material-icons left">search</i>
+                    Search Part
+                </a>
+            </div>
+
+            <div class="row">
+                <form class="col s12">
+                    <div class="row">
+                        <div class="input-field col s4">
+                            <input id="material" type="text" class="validate" autofocus required/>
+                            <label for="material" id="material-label">Material</label>
+                        </div>
+                        <div class="input-field col s4">
+                            <input id="material_desc" type="text" class="validate" required/>
+                            <label for="material_desc" id="material-desc-label">Material Desc</label>
+                        </div>
+                        <div class="input-field col s4">
+                            <input id="hsn_code" type="text" class="validate" required/>
+                            <label for="hsn_code" id="hsn-code-label">HSN Code</label>
+                        </div>
+                        <div class="input-field col s4">
+                            <input id="quantity" type="number" class="validate" required/>
+                            <label for="quantity" id="quantity-label">Quantity</label>
+                        </div>
+                        <div class="input-field col s4">
+                            <input id="price" class="validate" required type="number" min="1" step="any"/>
+                            <label for="price" id="price-label">MRP</label>
+                        </div>
+                        <div class="input-field col s4">
+                            <button class="btn waves-effect waves-light" type="submit" name="action">Add
+                                <i class="material-icons right">add</i>
+                            </button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <table id="billing-totals" class="striped">
+                <thead>
+                    <tr>
+                        <th>Material</th>
+                        <th>HSN Code</th>
+                        <th>Qty</th>
+                        <th>MRP</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                
+                <tbody>
+                   
+                </tbody>
+            </table>
+            <a class="waves-effect waves-light btn" id="generate-bill-btn">
+                <i class="large material-icons left">search</i>
+                Generate Bill
+            </a>
+        </div>
+    </main>
+    <footer>Grand total</footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="../js/index.js"></script>
+</body>
+
+</html>
