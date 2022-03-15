@@ -19,3 +19,7 @@ main {
 .row {
   margin-top: 10px;
 }
+
+.pointer {
+  cursor: pointer;
+}
