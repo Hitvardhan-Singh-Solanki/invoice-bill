@@ -17,8 +17,6 @@ function createTableHead(item) {
   return tr;
 }
 
-
-
 function createTableRow(item) {
   let entries = Object.entries(item);
   let tr = document.createElement("tr");
@@ -85,13 +83,5 @@ window.addEventListener("DOMContentLoaded", () => {
     });
     ipcRenderer.send("selected-parts-array", selRes);
   });
-
-  function handleKeyPress (event) {
-    // You can put code here to handle the keypress.
-    console.log(`You pressed ${event.key}`)
-  }
-  
-  window.addEventListener('keyup', handleKeyPress, true)
-
   // code above
 });
