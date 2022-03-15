@@ -1,13 +1,4 @@
 const { ipcRenderer } = require("electron");
-
-const tableValues = {
-  material: "",
-  hsn: "",
-  qty: 0,
-  price: 0,
-  total: 0,
-};
-
 const tableData = [];
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -66,24 +57,21 @@ function selectedPartsHandler(e, selectedParts) {
 function submitEventHandler(e, formDOM) {
   e.preventDefault();
   const formElements = formDOM.elements;
-
+  const tableValues = {};
   let [m, md, hsn, qty, p] = Object.entries(formElements);
   tableValues.material = m[1].value + "-" + md[1].value;
   tableValues.hsn = hsn[1].value;
   tableValues.qty = qty[1].value;
   tableValues.price = p[1].value;
-
   // calculate the total price
   tableValues.total = tableValues.qty * tableValues.price;
   tableData.push(tableValues);
   resetForm(formDOM);
-  createTRandPushToTable();
+  createTRandPushToTable(tableValues);
 }
 
-function createTRandPushToTable() {
+function createTRandPushToTable(tableValues) {
   let table = document.querySelector("#billing-totals > tbody");
-
-  // creating table row
   let entries = Object.entries(tableValues);
   let tr = document.createElement("tr");
   const delIcon = createDeleteIcon(tableValues.hsn);
@@ -111,14 +99,13 @@ function resetForm(form) {
       case "checkbox":
         inputs[i].checked = false;
       case "number":
-        inputs[i].value = 0;
+        inputs[i].value = "";
         inputs[i].disabled = false;
     }
   }
 }
 
 function generateBillWinHandler() {
-  console.log(tableData);
   ipcRenderer.send("generate-bill-window", tableData);
 }
 
