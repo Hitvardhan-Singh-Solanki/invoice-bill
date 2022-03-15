@@ -1,37 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'">
-    <meta http-equiv="X-Content-Security-Policy" content="default-src * 'unsafe-inline'">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link rel="stylesheet" href="../styles/read-file.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src * 'unsafe-inline'"
+    />
+    <meta
+      http-equiv="X-Content-Security-Policy"
+      content="default-src * 'unsafe-inline'"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+    <link rel="stylesheet" href="../styles/read-file.css" />
     <title>Search Parts</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="container">
-        <section>
-            <label for="search-part">Search part</label>
-            <input type="text" name="search-part" id="search-part" autofocus>
-        </section>
+      <section>
+        <label for="search-part">Search part</label>
+        <input type="text" name="search-part" id="search-part" autofocus />
+      </section>
 
-        <section>
-            <p class="display-none">Searching for the parts. Please wait!</p>
-            <div class="progress display-none">
-                <div class="indeterminate"></div>
-            </div>
-            <table id="search-results" class="display-none">
-
-            </table>
-            <button class="btn waves-effect waves-light disabled" id="done-selected">Done</button>
-        </section>
-            
+      <section>
+        <p class="display-none">Searching for the parts. Please wait!</p>
+        <div class="progress display-none">
+          <div class="indeterminate"></div>
+        </div>
+        <table id="search-results" class="display-none"></table>
+        <button
+          class="btn waves-effect waves-light disabled"
+          id="done-selected"
+        >
+          Done
+        </button>
+      </section>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script src="../utils/mousetrap.min.js"></script>
     <script src="../js/search-renderer.js"></script>
-</body>
-
+  </body>
 </html>
