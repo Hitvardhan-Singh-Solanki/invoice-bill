@@ -147,7 +147,7 @@ ipcMain.on('asynchronous-message', (event, filePathToRead) => {
 });
 
 ipcMain.on('search-string-query', (event, searchString) => {
-  if (searchString.length < 5) return;
+  // if (searchString.length < 5) return;
   fs.readFile(DUMP_PATH, 'utf8', function (err, buffer) {
     if (err) return console.log(err);
     event.reply('search-string-query', 'initiating search');

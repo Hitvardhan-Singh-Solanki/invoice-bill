@@ -1,14 +1,14 @@
-const { ipcRenderer } = require('electron');
-const { debounce } = require('lodash');
+const { ipcRenderer } = require("electron");
+const { debounce } = require("lodash");
 
 function createTableHead(item) {
   let headings = Object.keys(item);
-  headings.push('Select');
+  headings.push("Select");
 
-  var tr = document.createElement('tr');
+  var tr = document.createElement("tr");
 
   headings.forEach((heading) => {
-    let td = document.createElement('td');
+    let td = document.createElement("td");
     let text = document.createTextNode(heading);
     td.appendChild(text);
     tr.appendChild(td);
@@ -17,17 +17,19 @@ function createTableHead(item) {
   return tr;
 }
 
+
+
 function createTableRow(item) {
   let entries = Object.entries(item);
-  let tr = document.createElement('tr');
+  let tr = document.createElement("tr");
   entries.forEach(([k, v]) => {
-    const td = document.createElement('td');
+    const td = document.createElement("td");
     const text = document.createTextNode(v);
     td.appendChild(text);
     tr.appendChild(td);
   });
 
-  const td = document.createElement('td');
+  const td = document.createElement("td");
   td.innerHTML = `<label>
                     <input id="${item.Material}" type="radio" name="group1" class="checkbox-selection"/>
                     <span></span>
@@ -38,39 +40,40 @@ function createTableRow(item) {
   return tr;
 }
 
-window.addEventListener('DOMContentLoaded', () => {
-  const searchPartInput = document.querySelector('#search-part');
-  const doneBtn = document.querySelector('#done-selected');
+window.addEventListener("DOMContentLoaded", () => {
+  const searchPartInput = document.querySelector("#search-part");
+  const doneBtn = document.querySelector("#done-selected");
   let mainResult;
-  searchPartInput.addEventListener('keyup', (e) => {
+  searchPartInput.addEventListener("keyup", (e) => {
     // lets debounce this
     const fn = debounce(function () {
       const searchString = e.target.value;
+      if (searchString.length < 5) return;
       // go and find the parts first 3 that matches the search string
-      ipcRenderer.send('search-string-query', searchString);
+      ipcRenderer.send("search-string-query", searchString);
     }, 1000);
 
     fn();
   });
 
-  ipcRenderer.on('search-string-query', (event, results) => {
+  ipcRenderer.on("search-string-query", (event, results) => {
     results = JSON.parse(results);
     mainResult = results;
-    let tdDOM = document.querySelector('#search-results');
-    tdDOM.innerHTML = '';
+    let tdDOM = document.querySelector("#search-results");
+    tdDOM.innerHTML = "";
     let th = createTableHead(results[0]);
     tdDOM.appendChild(th);
     results.forEach(function (item) {
       let tr = createTableRow(item);
       tdDOM.appendChild(tr);
     });
-    tdDOM.classList.remove('display-none');
-    doneBtn.classList.remove('disabled');
+    tdDOM.classList.remove("display-none");
+    doneBtn.classList.remove("disabled");
   });
 
-  doneBtn.addEventListener('click', () => {
+  doneBtn.addEventListener("click", () => {
     let selectedMaterial = [];
-    const chkboxes = document.querySelectorAll('input[type=radio]');
+    const chkboxes = document.querySelectorAll("input[type=radio]");
     for (let [_, value] of Object.entries(chkboxes)) {
       if (value.checked) selectedMaterial.push(value.id);
     }
@@ -80,8 +83,15 @@ window.addEventListener('DOMContentLoaded', () => {
       }
       return false;
     });
-    ipcRenderer.send('selected-parts-array', selRes);
+    ipcRenderer.send("selected-parts-array", selRes);
   });
+
+  function handleKeyPress (event) {
+    // You can put code here to handle the keypress.
+    console.log(`You pressed ${event.key}`)
+  }
+  
+  window.addEventListener('keyup', handleKeyPress, true)
 
   // code above
 });

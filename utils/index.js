@@ -13,10 +13,12 @@ function beautifyJSON(rows) {
 }
 
 function searchHelper(searchString, arr) {
+  searchString = searchString.trim().toLowerCase();
   const result = arr.filter(
     function (ele) {
       let foundEle = false;
       for (let [key, value] of Object.entries(ele)) {
+        value = value.trim().toLowerCase();
         if (value.includes(searchString)) foundEle = true;
       }
 
@@ -32,5 +34,5 @@ function searchHelper(searchString, arr) {
 
 module.exports = {
   beautifyJSON,
-  searchHelper
+  searchHelper,
 };
