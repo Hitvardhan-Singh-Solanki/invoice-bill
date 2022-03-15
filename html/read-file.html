@@ -1,28 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'">
-    <meta http-equiv="X-Content-Security-Policy" content="default-src * 'unsafe-inline'">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link rel="stylesheet" href="../styles/read-file.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src * 'unsafe-inline'"
+    />
+    <meta
+      http-equiv="X-Content-Security-Policy"
+      content="default-src * 'unsafe-inline'"
+    />
+    <link
+      rel="stylesheet"
+      href="../assets/materialize/css/materialize.min.css"
+    />
+    <link rel="stylesheet" href="../styles/main.css" />
     <title>Read File</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="container">
-        <p id="file-path"></p>
-        <button class="btn waves-effect waves-light bold" id="read-file-btn">Read PDF</button>
-        <button class="btn waves-effect waves-light bold disabled" id="use-file-btn">use file</button>
+      <p id="file-path"></p>
+      <button class="btn waves-effect waves-light bold" id="read-file-btn">
+        Read PDF
+      </button>
+      <button
+        class="btn waves-effect waves-light bold disabled"
+        id="use-file-btn"
+      >
+        use file
+      </button>
 
-        <p id="file-info"></p>
-        <div class="progress display-none" id="progress-bar">
-            <div class="indeterminate"></div>
-        </div>
+      <p id="file-info"></p>
+      <div class="progress display-none" id="progress-bar">
+        <div class="indeterminate"></div>
+      </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="../assets/materialize/js/materialize.min.js"></script>
     <script src="../js/renderer.js"></script>
-</body>
-
+  </body>
 </html>

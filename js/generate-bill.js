@@ -45,5 +45,6 @@ function calculateTotal(invoiceData, invoiceTableBody) {
 }
 
 function printInvoiceHelper() {
-  var doc = new jsPDF();
+  const element = document.getElementById("main-invoice-content");
+  html2pdf().from(element).save();
 }
