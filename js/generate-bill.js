@@ -1,4 +1,5 @@
 const { ipcRenderer } = require("electron");
+const mainTemplate = require("../utils/template");
 window.addEventListener("DOMContentLoaded", () => {
   const printInvoiceBtn = document.getElementById("print-invoice-btn");
   const invoiceTableBody = document.getElementById("invoice-table-body");
@@ -45,6 +46,13 @@ function calculateTotal(invoiceData, invoiceTableBody) {
 }
 
 function printInvoiceHelper() {
-  const element = document.getElementById("main-invoice-content");
-  html2pdf().from(element).save();
+  const element = mainTemplate(document.getElementById("main-invoice-content"));
+  const opts = {
+    margin: 1,
+    filename: "sample_invoice.pdf",
+    image: { type: "jpeg", quality: 0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+  };
+  html2pdf().set(opts).from(element).save();
 }

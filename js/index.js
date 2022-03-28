@@ -44,7 +44,7 @@ function selectedPartsHandler(e, selectedParts) {
     hsn.value = element["HSN Code"];
     hsn.disabled = true;
     mrp.value = element.MRP;
-    mrp.disabled = true;
+    mrp.disabled = false;
     qty.value = 1;
     matLbl.classList.add("active");
     mat_descLbl.classList.add("active");
