@@ -1,6 +1,7 @@
 const { ipcRenderer } = require("electron");
 const tableData = [];
 let runningTotal = 0;
+let discount = 0;
 
 window.addEventListener("DOMContentLoaded", () => {
   const searchPartWin = document.querySelector("#search-part-main-btn");
@@ -86,11 +87,14 @@ function discountFormHandler(e, dom) {
 
   if (r_val > 0 && r_val < runningTotal) {
     runningTotal -= r_val;
+    discount = r_val;
     updateGrandTotal(runningTotal);
   } else if (p_val > 0 && p_val < 100) {
-    runningTotal = runningTotal - runningTotal * (p_val / 100);
+    runningTotal -= runningTotal * (p_val / 100);
+    discount = runningTotal * (p_val / 100);
     updateGrandTotal(runningTotal);
   }
+  resetForm(dom);
 }
 
 function updateGrandTotal(val) {
@@ -148,7 +152,11 @@ function resetForm(form) {
 }
 
 function generateBillWinHandler() {
-  ipcRenderer.send("generate-bill-window", tableData);
+  ipcRenderer.send("generate-bill-window", {
+    tableData,
+    discount,
+    runningTotal,
+  });
 }
 
 function createDeleteIcon(productID) {

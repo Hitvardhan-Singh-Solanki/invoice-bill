@@ -9,9 +9,8 @@ let win;
 let readFileWin;
 let searchPartsWindow;
 let generateBillWindow;
-let invoiceData;
 
-const createGenerateBillWin = () => {
+const createGenerateBillWin = (tableData, discount, runningTotal) => {
   generateBillWindow = new BrowserWindow({
     width: 1024,
     height: 900,
@@ -25,9 +24,13 @@ const createGenerateBillWin = () => {
   generateBillWindow.webContents.openDevTools();
   generateBillWindow.webContents.send("generate-bill-table", "tableData");
   generateBillWindow.on("closed", () => (generateBillWindow = null));
-  generateBillWindow.webContents.once("dom-ready", () =>
-    generateBillWindow.webContents.send("invoice-data", invoiceData)
-  );
+  generateBillWindow.webContents.once("dom-ready", () => {
+    generateBillWindow.webContents.send("invoice-data", {
+      invoiceData: tableData,
+      discount,
+      runningTotal,
+    });
+  });
 };
 
 const createReadFileWindow = () => {
@@ -160,8 +163,10 @@ ipcMain.on("selected-parts-array", (e, selectedParts) => {
   searchPartsWindow.close();
 });
 
-ipcMain.on("generate-bill-window", (e, tableData) => {
-  invoiceData = tableData;
-  // we need to generate the bill and send the data to bill generate window
-  createGenerateBillWin();
-});
+ipcMain.on(
+  "generate-bill-window",
+  (e, { tableData, discount, runningTotal }) => {
+    // we need to generate the bill and send the data to bill generate window
+    createGenerateBillWin(tableData, discount, runningTotal);
+  }
+);
