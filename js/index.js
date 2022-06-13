@@ -5,12 +5,16 @@ let runningTotal = 0;
 window.addEventListener("DOMContentLoaded", () => {
   const searchPartWin = document.querySelector("#search-part-main-btn");
   const addFileWin = document.querySelector("#add-file-main-btn");
-  const formDOM = document.querySelector("form");
+  const formDOM = document.querySelector("#parts-form");
   const generateBillBtn = document.querySelector("#generate-bill-btn");
+  const discountForm = document.querySelector("#discount-form");
 
   searchPartWin.addEventListener("click", searchPartWinHandler);
   addFileWin.addEventListener("click", addFileWinHandler);
   generateBillBtn.addEventListener("click", generateBillWinHandler);
+  discountForm.addEventListener("submit", (e) =>
+    discountFormHandler(e, discountForm)
+  );
   formDOM.addEventListener("submit", (e) => submitEventHandler(e, formDOM));
 
   ipcRenderer.on("selected-parts-array", selectedPartsHandler);
@@ -64,7 +68,6 @@ function submitEventHandler(e, formDOM) {
   tableValues.hsn = hsn[1].value;
   tableValues.qty = qty[1].value;
   tableValues.price = p[1].value;
-  // calculate the total price
   tableValues.total = tableValues.qty * tableValues.price;
   tableData.push(tableValues);
   resetForm(formDOM);
@@ -72,19 +75,42 @@ function submitEventHandler(e, formDOM) {
   createTRandPushToTable(tableValues);
 }
 
-function addToGrandTotal(val) {
-  runningTotal += val;
+function discountFormHandler(e, dom) {
+  e.preventDefault();
+  let [[_1, { value: r_val }], [_2, { value: p_val }]] = Object.entries(
+    dom.elements
+  );
+
+  r_val = parseInt(r_val, 10);
+  p_val = parseInt(p_val, 10);
+
+  if (r_val > 0 && r_val < runningTotal) {
+    runningTotal -= r_val;
+    updateGrandTotal(runningTotal);
+  } else if (p_val > 0 && p_val < 100) {
+    runningTotal = runningTotal - runningTotal * (p_val / 100);
+    updateGrandTotal(runningTotal);
+  }
+}
+
+function updateGrandTotal(val) {
   const grandTotalDOM = document.querySelector(
     "#grand-total-container > #grand-total"
   );
 
-  grandTotalDOM.innerHTML = `&#8377; ${runningTotal}`;
+  grandTotalDOM.innerHTML = `&#8377; ${val.toFixed(2)}`;
+}
+
+function addToGrandTotal(val) {
+  runningTotal += val;
+  updateGrandTotal(runningTotal);
 }
 
 function createTRandPushToTable(tableValues) {
-  const grandTotalDOM = document.querySelector("#grand-total-container");
+  const billdetailsContainer = document.querySelector(
+    "#bill-details-container"
+  );
   const generateBillBtn = document.querySelector("#generate-bill-btn");
-  const mainTable = document.querySelector("#billing-totals");
   let table = document.querySelector("#billing-totals > tbody");
   let entries = Object.entries(tableValues);
   let tr = document.createElement("tr");
@@ -99,8 +125,7 @@ function createTRandPushToTable(tableValues) {
   td.appendChild(delIcon);
   tr.appendChild(td);
   table.appendChild(tr);
-  grandTotalDOM.classList.remove("hidden");
-  mainTable.classList.remove("hidden");
+  billdetailsContainer.classList.remove("hidden");
   generateBillBtn.classList.remove("disabled");
 }
 
@@ -137,9 +162,10 @@ function createDeleteIcon(productID) {
 }
 
 function deleteIconHandler(e, productID) {
-  const mainTable = document.querySelector("#billing-totals");
+  const billdetailsContainer = document.querySelector(
+    "#bill-details-container"
+  );
   const generateBillBtn = document.querySelector("#generate-bill-btn");
-  const grandTotalDOM = document.querySelector("#grand-total-container");
   const table = document.querySelector("#billing-totals > tbody");
   const tr = e.target.parentNode.parentNode;
   table.removeChild(tr);
@@ -152,8 +178,7 @@ function deleteIconHandler(e, productID) {
     });
   }
   if (tableData.length === 0) {
-    mainTable.classList.add("hidden");
+    billdetailsContainer.classList.add("hidden");
     generateBillBtn.classList.add("disabled");
-    grandTotalDOM.classList.add("hidden");
   }
 }
