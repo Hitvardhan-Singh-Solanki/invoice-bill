@@ -1,5 +1,6 @@
 const { ipcRenderer } = require("electron");
 const tableData = [];
+let runningTotal = 0;
 
 window.addEventListener("DOMContentLoaded", () => {
   const searchPartWin = document.querySelector("#search-part-main-btn");
@@ -67,10 +68,23 @@ function submitEventHandler(e, formDOM) {
   tableValues.total = tableValues.qty * tableValues.price;
   tableData.push(tableValues);
   resetForm(formDOM);
+  addToGrandTotal(tableValues.total);
   createTRandPushToTable(tableValues);
 }
 
+function addToGrandTotal(val) {
+  runningTotal += val;
+  const grandTotalDOM = document.querySelector(
+    "#grand-total-container > #grand-total"
+  );
+
+  grandTotalDOM.innerHTML = `&#8377; ${runningTotal}`;
+}
+
 function createTRandPushToTable(tableValues) {
+  const grandTotalDOM = document.querySelector("#grand-total-container");
+  const generateBillBtn = document.querySelector("#generate-bill-btn");
+  const mainTable = document.querySelector("#billing-totals");
   let table = document.querySelector("#billing-totals > tbody");
   let entries = Object.entries(tableValues);
   let tr = document.createElement("tr");
@@ -85,6 +99,9 @@ function createTRandPushToTable(tableValues) {
   td.appendChild(delIcon);
   tr.appendChild(td);
   table.appendChild(tr);
+  grandTotalDOM.classList.remove("hidden");
+  mainTable.classList.remove("hidden");
+  generateBillBtn.classList.remove("disabled");
 }
 
 function resetForm(form) {
@@ -120,6 +137,9 @@ function createDeleteIcon(productID) {
 }
 
 function deleteIconHandler(e, productID) {
+  const mainTable = document.querySelector("#billing-totals");
+  const generateBillBtn = document.querySelector("#generate-bill-btn");
+  const grandTotalDOM = document.querySelector("#grand-total-container");
   const table = document.querySelector("#billing-totals > tbody");
   const tr = e.target.parentNode.parentNode;
   table.removeChild(tr);
@@ -130,5 +150,10 @@ function deleteIconHandler(e, productID) {
         tableData.splice(index, 1);
       }
     });
+  }
+  if (tableData.length === 0) {
+    mainTable.classList.add("hidden");
+    generateBillBtn.classList.add("disabled");
+    grandTotalDOM.classList.add("hidden");
   }
 }

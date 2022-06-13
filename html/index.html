@@ -93,21 +93,25 @@
             </div>
           </form>
         </div>
-        <table id="billing-totals" class="striped">
+        <table id="billing-totals" class="striped hidden">
           <thead>
             <tr>
               <th>Material</th>
               <th>HSN Code</th>
               <th>Qty</th>
-              <th>MRP</th>
-              <th>Total</th>
+              <th>MRP(in &#8377;)</th>
+              <th>Total (in &#8377;)</th>
               <th>Actions</th>
             </tr>
           </thead>
 
           <tbody></tbody>
         </table>
-        <a class="waves-effect waves-light btn" id="generate-bill-btn">
+        <span class="grand-total-final hidden" id="grand-total-container">
+          <p>Grand Total</p>
+          <p id="grand-total"></p>
+        </span>
+        <a class="waves-effect waves-light btn disabled" id="generate-bill-btn">
           <i class="large material-icons left">search</i>
           Generate Bill
         </a>

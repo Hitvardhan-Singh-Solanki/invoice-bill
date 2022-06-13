@@ -27,3 +27,16 @@ main {
 #invoice-table-body > tr:last-child {
   font-weight: bold;
 }
+
+.grand-total-final {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: space-around;
+  font-weight: bold;
+  font-size: large;
+}
+
+.hidden {
+  display: none;
+}
