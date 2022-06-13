@@ -1,3 +1,12 @@
+const date = new Date();
+
+const hours = String(date.getHours()).padStart(2, "0");
+const minutes = String(date.getMinutes()).padStart(2, "0");
+const currentDate = `${date.getDate()}/${
+  date.getMonth() + 1
+}/${date.getFullYear()}`;
+const currentTime = `${hours}:${minutes}`;
+
 const mainTemplate = (content) => {
   return `
     <html>
@@ -12,9 +21,7 @@ const mainTemplate = (content) => {
         <main>
             <div class="container">
                 <h4>Invoice details</h4>
-                <span>${new Date().getDate()}/${
-    new Date().getMonth() + 1
-  }/${new Date().getFullYear()}</span>
+                <span>${currentDate} - ${currentTime}</span>
                 <table class="striped" id="main-invoice-content">
                     ${content.innerHTML}
                   </table>
