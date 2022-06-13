@@ -20,7 +20,12 @@ window.addEventListener("DOMContentLoaded", () => {
         });
         invoiceTableBody.appendChild(tr);
       });
-      calculateHelper("Discount", invoiceData, invoiceTableBody, discount);
+      calculateHelper(
+        "Discount",
+        invoiceData,
+        invoiceTableBody,
+        discount.toFixed(2)
+      );
 
       calculateHelper(
         "Grand Total",
@@ -58,10 +63,18 @@ function calculateHelper(
 }
 
 function printInvoiceHelper() {
+  const date = new Date();
+
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+  const currentDate = `${date.getDate()}_${
+    date.getMonth() + 1
+  }_${date.getFullYear()}`;
+  const currentTime = `${hours}_${minutes}`;
   const element = mainTemplate(document.getElementById("main-invoice-content"));
   const opts = {
     margin: 1,
-    filename: "sample_invoice.pdf",
+    filename: `${currentDate}_${currentTime}.pdf`,
     image: { type: "jpeg", quality: 0.98 },
     html2canvas: { scale: 2 },
     jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
