@@ -22,7 +22,7 @@ const createGenerateBillWin = (tableData, discount, runningTotal) => {
   });
 
   generateBillWindow.loadFile("./html/generate-bill.html");
-  generateBillWindow.webContents.openDevTools();
+  // generateBillWindow.webContents.openDevTools();
   generateBillWindow.webContents.send("generate-bill-table", "tableData");
   generateBillWindow.on("closed", () => (generateBillWindow = null));
   generateBillWindow.webContents.once("dom-ready", () => {
@@ -62,7 +62,7 @@ const createSearchPartsWindow = () => {
   });
 
   searchPartsWindow.loadFile("./html/search-parts.html");
-  searchPartsWindow.webContents.openDevTools();
+  // searchPartsWindow.webContents.openDevTools();
   searchPartsWindow.on("closed", () => {
     searchPartsWindow = null;
   });
@@ -80,7 +80,7 @@ const createWindow = async () => {
 
   win.loadFile("./html/index.html");
 
-  win.webContents.openDevTools();
+  // win.webContents.openDevTools();
 
   const menu = Menu.buildFromTemplate(template);
 
