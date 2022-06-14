@@ -3,7 +3,8 @@ const { ipcMain } = require("electron/main");
 const pdf2table = require("pdf2table");
 const fs = require("fs");
 const { beautifyJSON, searchHelper } = require("./utils/index");
-const DUMP_PATH = "./assets/filedump.json";
+const path = require("path");
+const DUMP_PATH = path.resolve(__dirname, "filedump.json");
 
 let win;
 let readFileWin;
@@ -129,6 +130,7 @@ ipcMain.on("asynchronous-message", (event, filePathToRead) => {
       event.reply("asynchronous-reply", "parsing-complete");
       event.reply("asynchronous-reply", "dumping-file");
       // check if the file exists
+      console.log(DUMP_PATH);
       if (fs.existsSync(DUMP_PATH)) {
         fs.unlinkSync(DUMP_PATH);
       }
